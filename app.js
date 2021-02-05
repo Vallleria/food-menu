@@ -7,7 +7,7 @@ let item1 = {
 }
 
 let item2 = {
-    title: 'Diner Double',
+    title: 'Diner',
     category: 'Lunch',
     price: 13.99,
     img: './img/item-2.jpeg',
