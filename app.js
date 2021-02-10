@@ -80,28 +80,48 @@ let foodMenu = document.querySelector('.food-menu');
 
 // добавим сразу несколько элементов
 
-function displayMenuItems() {
-    for (let i=0; i < menu.length; i += 1) {
-        let item = menu[i];
+function displayMenuItems(menuItems) {
+    foodMenu.innerHTML = ''; // очистим содержимое foodMenu
+
+    for (let i=0; i < menuItems.length; i += 1) {
+        let item = menuItems[i];
         console.log(item.img);
 
         foodMenu.innerHTML = foodMenu.innerHTML + `<article class="menu-item">
                             <img class="item-foto" src="${item.img}" alt="">
-                            <div class="item-title-wrapper">
-                                <h2 class="item-title">${item.title}</h2>
-                                <span class="item-price">${item.price}</span>
+                            <div class="item-info">
+                                <div class="item-title-wrapper">
+                                    <h2 class="item-title">${item.title}</h2>
+                                    <span class="item-price">${item.price}</span>
+                                </div>
+                                <p class="item-text">${item.description}</p>
                             </div>
-                            <p class="item-text">${item.description}</p>
                         </article>`
     }
 }
 
 // event - содержать инфу о событии клика
 // параметр event можем задать только когда передаем функцию в addEventListener
-function onFilterBtn(event) {     
+function onFilterBtn(event) {   
     let filterBtn = event.target; // достаем кнопку по которой кликнули
-    let category = filterBtn.dataset.category;
-    console.log(category);
+    let category = filterBtn.dataset.category; //  берем инфу из атрибута data-category
+    
+    if (category == 'all') {
+        displayMenuItems(menu);
+        return; // выход из функции
+    }
+
+    let newMenu = []; // сдесь сохраним отфильтрованные элементы мену в завис. от выбр. категории
+
+    for (let i=0; i < menu.length; i += 1) {
+        let item = menu[i];
+        console.log(category, item.category)
+        if (category == item.category.toLowerCase()) {
+            // console.log('найдено ', category, item.category)
+            newMenu.push(item);
+        }
+    }
+    displayMenuItems(newMenu);
 }
 
 var categoryBtns = document.querySelectorAll('.filter-btn');
@@ -115,4 +135,4 @@ for (let i=0; i < categoryBtns.length; i += 1) {
 
 
 
-displayMenuItems();
+displayMenuItems(menu);
